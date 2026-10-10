@@ -1,0 +1,4 @@
+data/
+server.log
+node_modules/
+.env

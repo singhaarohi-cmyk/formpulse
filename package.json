@@ -1,0 +1,11 @@
+{
+  "name": "formpulse",
+  "version": "1.0.0",
+  "description": "Track Google Form submissions and send one-time Slack milestone alerts.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/run-tests.js"
+  },
+  "engines": { "node": ">=22.13" }
+}

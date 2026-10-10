@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: formpulse
+    runtime: node
+    plan: starter
+    buildCommand: echo "no build step"
+    startCommand: node server.js
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: 24
+      - key: DB_PATH
+        value: /var/data/formpulse.db
+      - key: DASHBOARD_PASSWORD
+        sync: false
+    disk:
+      name: formpulse-data
+      mountPath: /var/data
+      sizeGB: 1

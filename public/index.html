@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FormPulse</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Cpath d='M5 17h5l3-8 5 14 3-6h6' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#4f46e5"/><path d="M5 17h5l3-8 5 14 3-6h6" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>FormPulse</span>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-view="dashboard" role="tab">Dashboard</button>
+      <button class="tab" data-view="connect" role="tab">Connect</button>
+    </nav>
+    <div class="live"><span class="dot"></span><span id="liveText">Live</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- DASHBOARD -->
+  <section id="view-dashboard" class="view">
+    <div id="setupBanner" class="banner" hidden>
+      <div><strong>Slack is not connected yet.</strong> Milestones are still tracked, and alerts will send as soon as you connect Slack.</div>
+      <button class="btn small" data-goto="connect">Connect Slack</button>
+    </div>
+
+    <div class="hero card">
+      <div class="hero-main">
+        <div class="eyebrow" id="formName">Your Google Form</div>
+        <div class="big" id="total">0</div>
+        <div class="muted">total submissions</div>
+        <div class="chips">
+          <span class="chip" id="chip24">0 in the last 24h</span>
+          <span class="chip" id="chipNext">Next milestone: 50</span>
+        </div>
+      </div>
+      <div class="hero-chart">
+        <div class="eyebrow">Last 14 days</div>
+        <div id="bars" class="bars"></div>
+      </div>
+    </div>
+
+    <h2>Milestones</h2>
+    <div class="grid3" id="milestones"></div>
+
+    <div class="cols">
+      <div class="card">
+        <div class="card-head"><h3>Notification history</h3></div>
+        <div id="history"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Latest submissions</h3></div>
+        <div id="recent"></div>
+      </div>
+    </div>
+
+    <div class="card demo">
+      <div>
+        <h3>Try it without a form</h3>
+        <p class="muted">Adds fake submissions so you can watch milestones and Slack alerts fire. Demo rows are separate from real form data and can be cleared.</p>
+      </div>
+      <div class="demo-btns">
+        <button class="btn ghost" data-demo="1">+1</button>
+        <button class="btn ghost" data-demo="10">+10</button>
+        <button class="btn ghost" data-demo="50">+50</button>
+        <button class="btn danger" id="demoReset">Clear demo data</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONNECT -->
+  <section id="view-connect" class="view" hidden>
+    <div class="card step">
+      <div class="num">1</div>
+      <div class="step-body">
+        <h3>Connect Slack</h3>
+        <p class="muted">In Slack, create an Incoming Webhook for the channel that should get the alerts (api.slack.com/apps, Create New App, Incoming Webhooks, Add New Webhook to Workspace). Paste the URL below.</p>
+        <label>Form name shown in alerts</label>
+        <input id="inFormName" type="text" placeholder="Customer feedback form">
+        <label>Slack webhook URL</label>
+        <input id="inSlack" type="text" placeholder="https://hooks.slack.com/services/T000/B000/XXXX" autocomplete="off">
+        <div class="row">
+          <button class="btn" id="saveSlack">Save</button>
+          <button class="btn ghost" id="testSlack">Send test message</button>
+          <span id="slackMsg" class="msg"></span>
+        </div>
+        <div class="muted small" id="slackCurrent"></div>
+      </div>
+    </div>
+
+    <div class="card step">
+      <div class="num">2</div>
+      <div class="step-body">
+        <h3>Connect your Google Form</h3>
+        <div id="localWarn" class="banner warn" hidden>
+          <div><strong>This dashboard is running on your computer (localhost).</strong> Google cannot reach it from the internet yet. Deploy it (see README) or run a tunnel such as <code>npx localtunnel --port 3100</code>, then open the dashboard from that public address and copy the script again.</div>
+        </div>
+        <ol class="steps">
+          <li>Open your Google Form, click the three dots (top right), then <b>Apps script</b>.</li>
+          <li>Delete everything in the editor, paste the script below, and click <b>Save</b>.</li>
+          <li>Pick <b>setup</b> in the function dropdown and click <b>Run</b>. Approve the permissions.</li>
+          <li>Optional: pick <b>syncAll</b> and click <b>Run</b> to import responses that already exist. If the form already has 50+ responses this will fire the matching alerts right away.</li>
+        </ol>
+        <div class="code-head"><span>Google Apps Script</span><button class="btn small ghost" id="copyScript">Copy</button></div>
+        <pre id="script" class="code"></pre>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="toast" class="toast" hidden></div>
+<script src="/app.js"></script>
+</body>
+</html>
