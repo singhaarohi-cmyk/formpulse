@@ -2,3 +2,6 @@ data/
 server.log
 node_modules/
 .env
+tools/
+.dashboard-password.txt
+gas-standalone.js
